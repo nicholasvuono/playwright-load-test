@@ -1,0 +1,20 @@
+{
+  "name": "@nickvuono/playwright-load-test",
+  "version": "0.1.0",
+  "description": "Load test your apps using Playwright's APIRequestContext",
+  "main": "index.ts",
+  "scripts": {
+    "format": "npx prettier --write src/**/*.ts",
+    "test:iterations:executor": "npx playwright test --config ./tests/playwright.config.ts -g @iterations-executor",
+    "test:duration:executor": "npx playwright test --config ./tests/playwright.config.ts -g @duration-executor",
+    "test:iterations-per-second:executor": "npx playwright test --config ./tests/playwright.config.ts -g @iterations-per-second-executor"
+  },
+  "author": "Nick Vuono nicholas.vuono@gmail.com",
+  "license": "Apache License 2.0",
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.28",
+    "playwright": "^1.42.1",
+    "prettier": "^3.2.5"
+  }
+}

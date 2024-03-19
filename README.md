@@ -1,6 +1,6 @@
 # 🎭  playwright-load-test
 
-[![NPM](https://img.shields.io/badge/NPM-0.1.0-red.svg)](https://www.npmjs.com/package/@nickvuono/playwright-load-test)
+[![NPM](https://img.shields.io/badge/NPM-0.1.1-red.svg)](https://www.npmjs.com/package/@nickvuono/playwright-load-test)
 ![Publish](https://github.com/nicholasvuono/playwright-load-test/actions/workflows/npm.yml/badge.svg)
 ![CI](https://github.com/nicholasvuono/playwright-load-test/actions/workflows/build.yml/badge.svg)
 ![CodeQL](https://github.com/nicholasvuono/playwright-load-test/actions/workflows/codeql.yml/badge.svg)

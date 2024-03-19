@@ -1,6 +1,6 @@
 {
   "name": "@nickvuono/playwright-load-test",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Load test your apps using Playwright's APIRequestContext",
   "main": "index.ts",
   "scripts": {

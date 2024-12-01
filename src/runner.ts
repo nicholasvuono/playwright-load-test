@@ -31,7 +31,7 @@ export default class Runner {
     this.promises.push(
       new Promise((resolve) => {
         return resolve(func());
-      }),
+      })
     );
   }
 
@@ -67,6 +67,25 @@ export default class Runner {
     }
   }
 
+  private async variableRateExecutor(func: Function) {
+    let counter = 0;
+    for (let j = 0; j < this.options.stages!.length; j++) {
+      let go = true;
+      timeout(() => {
+        go = false;
+      }, this.options.stages![j].duration! * 1000);
+      while (go) {
+        for (let i = 0; i < this.options.stages![j].ips!; i++) {
+          this.makeConcurrentRequests(func);
+          counter++;
+          console.log(counter);
+        }
+        await sleep(1000);
+        write("|");
+      }
+    }
+  }
+
   async go(func: Function) {
     write("\nRUNNING:");
     switch (this.options.executor !== null) {
@@ -80,6 +99,10 @@ export default class Runner {
       }
       case this.options.executor === "iterations-per-second": {
         await this.iterationsPerSecondExecutor(func);
+        break;
+      }
+      case this.options.executor === "variable-rate": {
+        await this.variableRateExecutor(func);
         break;
       }
     }

@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
-import run from "../src";
+import perf from "../src";
 
-run.setOptions({
+perf.setOptions({
   executor: "duration",
   duration: 10,
 });
 
 test("Duration Executor Test @duration-executor", async ({ request }) => {
-  await run.go(async () => {
+  await perf.go(async () => {
     const response = await request.get("/api");
     expect(response.ok()).toBeTruthy();
   });

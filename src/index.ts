@@ -1,5 +1,5 @@
 import Runner from "./runner";
 
-const run = new Runner();
+const perf = new Runner();
 
-export default run;
+export default perf;

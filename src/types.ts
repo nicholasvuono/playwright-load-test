@@ -1,10 +1,17 @@
-export type Executor = "iterations" | "duration" | "iterations-per-second";
+export type Executor =
+  | "iterations"
+  | "duration"
+  | "iterations-per-second"
+  | "variable-rate";
+
+export type Stage = { ips: number; duration: number };
 
 export type Options = {
   executor: Executor;
   duration?: number;
   iterations?: number;
   ips?: number;
+  stages?: Stage[];
 };
 
 export type Results = {

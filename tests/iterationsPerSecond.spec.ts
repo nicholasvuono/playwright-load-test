@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
-import perf from "../src";
+import loadtest from "../src";
 
-perf.setOptions({
+loadtest.config({
   executor: "iterations-per-second",
   duration: 15,
   ips: 1,
@@ -10,7 +10,7 @@ perf.setOptions({
 test("Iterations per Second Executor Test @iterations-per-second-executor", async ({
   request,
 }) => {
-  await perf.go(async () => {
+  await loadtest.exec(async () => {
     const response = await request.get("/api");
     expect(response.ok()).toBeTruthy();
   });

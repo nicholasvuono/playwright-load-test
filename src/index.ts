@@ -1,5 +1,5 @@
-import Runner from "./runner";
+import LoadTest from "./loadtest";
 
-const perf = new Runner();
+const loadtest = new LoadTest();
 
-export default perf;
+export default loadtest;

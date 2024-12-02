@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
-import perf from "../src";
+import loadtest from "../src";
 
-perf.setOptions({
+loadtest.config({
   executor: "iterations",
   iterations: 10,
 });
 
 test("Iterations Executor Test @iterations-executor", async ({ request }) => {
-  await perf.go(async () => {
+  await loadtest.exec(async () => {
     const response = await request.get("/api");
     expect(response.ok()).toBeTruthy();
   });

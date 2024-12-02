@@ -8,12 +8,12 @@ const sleep = async (duration: number) => {
   await new Promise((resolve) => setTimeout(resolve, duration));
 };
 
-export default class Runner {
+export default class LoadTest {
   private options: Options;
   private resolved: any[] = [];
   private promises: Promise<any>[] = [];
 
-  setOptions(options: Options) {
+  config(options: Options) {
     this.options = options;
   }
 
@@ -31,7 +31,7 @@ export default class Runner {
     this.promises.push(
       new Promise((resolve) => {
         return resolve(func());
-      })
+      }),
     );
   }
 
@@ -86,7 +86,7 @@ export default class Runner {
     }
   }
 
-  async go(func: Function) {
+  async exec(func: Function) {
     write("\nRUNNING:");
     switch (this.options.executor !== null) {
       case this.options.executor === "iterations": {

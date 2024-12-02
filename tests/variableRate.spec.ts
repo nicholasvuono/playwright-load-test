@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
-import perf from "../src";
+import loadtest from "../src";
 
-perf.setOptions({
+loadtest.config({
   executor: "variable-rate",
   stages: [
     {
@@ -19,10 +19,10 @@ perf.setOptions({
   ],
 });
 
-test("Iterations per Second Executor Test @variable-rate-executor", async ({
+test("Variable Rate Executor Test @variable-rate-executor", async ({
   request,
 }) => {
-  await perf.go(async () => {
+  await loadtest.exec(async () => {
     const response = await request.get("/api");
     expect(response.ok()).toBeTruthy();
   });

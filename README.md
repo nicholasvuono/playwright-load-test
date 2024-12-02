@@ -11,6 +11,8 @@
 
 A load testing harness for [Playwright API testing](https://playwright.dev/docs/api-testing)
 
+Although this is inteded for use with the default Playwright API Request Context, this is a general load testing harness that could also be used with Axios, Fetch, etc.
+
 ### Prerequisites
 `npm i @playwright/test`
 
@@ -26,11 +28,11 @@ A load testing harness for [Playwright API testing](https://playwright.dev/docs/
 | `iterations` | runs a specified number of iterations syncronously |
 | `duration` | runs iterations syncrounously for a given duration in seconds |
 | `iterations-per-second` | run a specified number of iterations per second for a given duration in seconds |
-| `variable` | ⚠️ In Progress - will allow for ramping up and ramping down iterations per second over given time spans |
+| `variable-rate` | configure stages to ramp up and ramp down iterations per second over given durations in seconds |
 
-Thes can be specified using the `setOptions()` function like so:
+Thes can be specified using the `options()` function like so:
 ```typescript
-run.setOptions({
+loadtest.config({
   executor: "iterations-per-second",
   duration: 15,
   ips: 1,
@@ -42,15 +44,15 @@ run.setOptions({
 ### Iterations Executor Example
 ```typescript
 import { test, expect } from "@playwright/test";
-import run from "@nickvuono/playwright-load-test";
+import loadtest from "@nickvuono/playwright-load-test";
 
-run.setOptions({
+loadtest.config({
   executor: "iterations",
   iterations: 10,
 });
 
 test("Iterations Executor Test @iterations-executor", async ({ request }) => {
-  await run.go(async () => {
+  await loadtest.exec(async () => {
     const response = await request.get("https://yesno.wtf/api");
     expect(response.ok()).toBeTruthy();
   });
@@ -62,15 +64,15 @@ test("Iterations Executor Test @iterations-executor", async ({ request }) => {
 ### Duration Executor Example
 ```typescript
 import { test, expect } from "@playwright/test";
-import run from "@nickvuono/playwright-load-test";
+import loadtest from "@nickvuono/playwright-load-test";
 
-run.setOptions({
+loadtest.config({
   executor: "duration",
   duration: 10,
 });
 
 test("Duration Executor Test @duration-executor", async ({ request }) => {
-  await run.go(async () => {
+  await loadtest.exec(async () => {
     const response = await request.get("https://yesno.wtf/api");
     expect(response.ok()).toBeTruthy();
   });
@@ -82,9 +84,9 @@ test("Duration Executor Test @duration-executor", async ({ request }) => {
 ### Iterations per Second Executor Example
 ```typescript
 import { test, expect } from "@playwright/test";
-import run from "@nickvuono/playwright-load-test";
+import loadtest from "@nickvuono/playwright-load-test";
 
-run.setOptions({
+loadtest.config({
   executor: "iterations-per-second",
   duration: 15,
   ips: 1,
@@ -93,7 +95,7 @@ run.setOptions({
 test("Iterations per Second Executor Test @iterations-per-second-executor", async ({
   request,
 }) => {
-  await run.go(async () => {
+  await loadtest.exec(async () => {
     const response = await request.get("https://yesno.wtf/api");
     expect(response.ok()).toBeTruthy();
   });
@@ -102,13 +104,38 @@ test("Iterations per Second Executor Test @iterations-per-second-executor", asyn
 
 <br>
 
-### Contributing
+### Varaible Rate Executor Example
+```typescript
+import { test, expect } from "@playwright/test";
+import loadtest from "@nickvuono/playwright-load-test";
 
-1. Fork it (<https://github.com/your-github-user/playwright-load-test/fork>)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+loadtest.config({
+  executor: "variable-rate",
+  stages: [
+    {
+      ips: 1,
+      duration: 5,
+    },
+    {
+      ips: 2,
+      duration: 5,
+    },
+    {
+      ips: 1,
+      duration: 10,
+    },
+  ],
+});
+
+test("Variable Rate Executor Test @variable-rate-executor", async ({
+  request,
+}) => {
+  await loadtest.exec(async () => {
+    const response = await request.get("https://yesno.wtf/api");
+    expect(response.ok()).toBeTruthy();
+  });
+});
+```
 
 <br>
 

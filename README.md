@@ -8,6 +8,8 @@
 [![Style: prettier](https://img.shields.io/badge/Style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![License](https://img.shields.io/badge/License-Apache2.0-red.svg)]([http://opensource.org/licenses/MIT](https://github.com/nicholasvuono/playwright-load-test/blob/main/LICENSE))
 
+NPM Registry Page: [@nickvuono/playwright-load-test](https://www.npmjs.com/package/@nickvuono/playwright-load-test)
+
 
 A load testing harness for [Playwright API testing](https://playwright.dev/docs/api-testing)
 

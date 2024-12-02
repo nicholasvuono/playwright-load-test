@@ -30,7 +30,7 @@ Although this is inteded for use with the default Playwright API Request Context
 | `iterations-per-second` | run a specified number of iterations per second for a given duration in seconds |
 | `variable-rate` | configure stages to ramp up and ramp down iterations per second over given durations in seconds |
 
-Thes can be specified using the `options()` function like so:
+Thes can be specified using the `config()` function like so:
 ```typescript
 loadtest.config({
   executor: "iterations-per-second",

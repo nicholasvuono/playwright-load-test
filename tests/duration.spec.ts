@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
-import loadtest, { req } from "../src";
+import {test, expect} from "@playwright/test";
+import loadtest, {req} from "../src";
 
 loadtest.config({
   engine: "playwright",
@@ -7,12 +7,15 @@ loadtest.config({
   duration: 10,
 });
 
-test("Duration Executor Test @duration-executor", async ({ request }) => {
+test("Duration Executor Test @duration-executor", async ({request}) => {
   req.config(request);
 
   await loadtest.exec(async () => {
     const response = await req.get("/api");
-    expect(response.ok()).toBeTruthy();
-    expect(req.responseTime()).
+    expect(response.response.ok()).toBeTruthy();
+    expect(req.getResponseTime()).toBeLessThan(3000);
+    return response;
   });
+
+  await loadtest.printResults();
 });

@@ -1,4 +1,4 @@
-import { Options, Results } from "./types";
+import {Options, Results, RequestPerformaceMetrics} from "./types";
 import math from "./math";
 
 const timeout = setTimeout;
@@ -18,7 +18,7 @@ export default class LoadTest {
   }
 
   private async resolvePromises() {
-    await Promise.all(this.promises);
+    this.promises = await Promise.allSettled(this.promises);
   }
 
   private async makeSyncronousRequests(func: Function) {
@@ -56,7 +56,7 @@ export default class LoadTest {
     }, this.options.duration! * 1000);
     while (go) {
       for (let i = 0; i < this.options.ips!; i++) {
-        this.makeConcurrentRequests(func);
+        await this.makeConcurrentRequests(func);
       }
       await sleep(1000);
     }
@@ -70,7 +70,7 @@ export default class LoadTest {
       }, this.options.stages![j].duration! * 1000);
       while (go) {
         for (let i = 0; i < this.options.stages![j].ips!; i++) {
-          this.makeConcurrentRequests(func);
+          await this.makeConcurrentRequests(func);
         }
         await sleep(1000);
       }
@@ -78,28 +78,39 @@ export default class LoadTest {
   }
 
   private async setResults(responses: any) {
-    let responseTimes: number[] = [];
+    const metrics: RequestPerformaceMetrics[] = [];
     for (const response of responses) {
       switch (this.options.engine !== null) {
         case this.options.engine === "axios": {
-          responseTimes.push(response.timings.elapsedTime);
+          const responseTime = response.timings.elapsedTime;
+          const timeStamp = Date.now();
+          metrics.push({response, responseTime, timeStamp});
+          break;
         }
         case this.options.engine === "playwright": {
-          responseTimes.push(response.timings.elapsedTime);
+          metrics.push({
+            response: response.value.response,
+            responseTime: response.value.responseTime,
+            timeStamp: response.value.timeStamp
+          });
         }
       }
     }
-    responseTimes = responseTimes.sort();
+    metrics.sort((a, b) => (a.responseTime > b.responseTime ? 1 : -1));
+    const responseTimes = metrics.map(value => value.responseTime);
     this.results = {
-      responseTimeAverage: math.avg(responseTimes),
-      responseTimeMin: math.min(responseTimes),
-      responseTimeMax: math.max(responseTimes),
-      responseTime90th: math.perc(responseTimes, 0.9),
-      responseTime95th: math.perc(responseTimes, 0.95),
-      responseTime99th: math.perc(responseTimes, 0.99),
-      duration: this.options.duration ? this.options.duration : 0,
-      iterations: this.options.iterations ? this.options.iterations : 0,
-      iterationsPerSecond: this.options.ips ? this.options.ips : 0,
+      responseTimeAverage: Math.round(math.avg(responseTimes)),
+      responseTimeMin: Math.round(math.min(responseTimes)),
+      responseTimeMax: Math.round(math.max(responseTimes)),
+      responseTime50th: Math.round(math.perc(responseTimes, 0.50)),
+      responseTime75th: Math.round(math.perc(responseTimes, 0.75)),
+      responseTime90th: Math.round(math.perc(responseTimes, 0.90)),
+      config: {
+        duration: this.options.duration ? this.options.duration : 0,
+        iterations: this.options.iterations ? this.options.iterations : 0,
+        iterationsPerSecond: this.options.ips ? this.options.ips : 0,
+        stages: this.options.stages ? this.options.stages : 0,
+      },
       totalIterations: responseTimes.length,
     };
   }
@@ -108,22 +119,30 @@ export default class LoadTest {
     switch (this.options.executor !== null) {
       case this.options.executor === "iterations": {
         await this.iterationsExecutor(func);
+        await this.setResults(this.resolved);
         break;
       }
       case this.options.executor === "duration": {
         await this.durationExecutor(func);
+        await this.setResults(this.resolved);
         break;
       }
       case this.options.executor === "iterations-per-second": {
         await this.iterationsPerSecondExecutor(func);
+        await this.resolvePromises();
+        await this.setResults(this.promises);
         break;
       }
       case this.options.executor === "variable-rate": {
         await this.variableRateExecutor(func);
+        await this.resolvePromises();
+        await this.setResults(this.promises);
         break;
       }
     }
-    const responses = await this.resolvePromises();
-    return await this.setResults(responses);
+  }
+
+  async printResults() {
+    console.dir(this.results, {depth: null});
   }
 }

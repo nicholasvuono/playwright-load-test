@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
-import loadtest from "../src";
+import {test, expect} from "@playwright/test";
+import loadtest, {req} from "../src";
 
 loadtest.config({
   engine: "playwright",
@@ -7,9 +7,15 @@ loadtest.config({
   iterations: 10,
 });
 
-test("Iterations Executor Test @iterations-executor", async ({ request }) => {
+test("Iterations Executor Test @iterations-executor", async ({request}) => {
+  req.config(request);
+
   await loadtest.exec(async () => {
-    const response = await request.get("/api");
-    expect(response.ok()).toBeTruthy();
+    const response = await req.get("/api");
+    expect(response.response.ok()).toBeTruthy();
+    expect(req.getResponseTime()).toBeLessThan(3000);
+    return response;
   });
+
+  await loadtest.printResults();
 });

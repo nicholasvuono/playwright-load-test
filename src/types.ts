@@ -1,3 +1,7 @@
+//import {APIResponse} from "playwright/test";
+//import {AxiosResponse} from "axios";
+
+
 export type Engine = "playwright" | "axios";
 
 export type Executor =
@@ -7,6 +11,13 @@ export type Executor =
   | "variable-rate";
 
 export type Stage = { ips: number; duration: number };
+
+export type RequestPerformaceMetrics = {
+//  response: APIResponse | AxiosResponse; //get explicit types to work somehow
+  response: any;
+  responseTime: number;
+  timeStamp: number;
+};
 
 export type Options = {
   engine: Engine;
@@ -21,9 +32,9 @@ export type Results = {
   responseTimeAverage: number;
   responseTimeMin: number;
   responseTimeMax: number;
+  responseTime50th: number;
+  responseTime75th: number;
   responseTime90th: number;
-  responseTime95th: number;
-  responseTime99th: number;
   duration: number;
   iterations: number;
   iterationsPerSecond: number;

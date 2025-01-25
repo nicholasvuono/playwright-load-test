@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import loadtest from "../src";
 
 loadtest.config({
+  engine: "playwright",
   executor: "variable-rate",
   stages: [
     {

@@ -1,3 +1,5 @@
+export type Engine = "playwright" | "axios";
+
 export type Executor =
   | "iterations"
   | "duration"
@@ -7,6 +9,7 @@ export type Executor =
 export type Stage = { ips: number; duration: number };
 
 export type Options = {
+  engine: Engine;
   executor: Executor;
   duration?: number;
   iterations?: number;

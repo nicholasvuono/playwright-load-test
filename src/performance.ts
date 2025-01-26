@@ -15,18 +15,18 @@ const sortResponseTimes = (arr: any[]) => {
 const setResults = (opts: Types.Options, arr: any[]) => {
     return {
         timings: {
-          average: Stats.avg(arr),
-          min: Stats.min(arr),
-          max: Stats.max(arr),
-          perc50: Stats.perc(arr,.5),
-          perc75: Stats.perc(arr,.75),
-          perc90: Stats.perc(arr,.9),
+            average: Stats.avg(arr),
+            min: Stats.min(arr),
+            max: Stats.max(arr),
+            perc50: Stats.perc(arr, .5),
+            perc75: Stats.perc(arr, .75),
+            perc90: Stats.perc(arr, .9),
         },
         duration: opts.duration | 0,
         iterations: opts.iterations | 0,
         iterationsPerSecond: opts.ips | 0,
         totalIterations: opts.stages | 0,
-      }
+    }
 }
 
 export default class LoadTest {
@@ -100,7 +100,7 @@ export default class LoadTest {
     }
 
     private async setResults(responses: any) {
-        const metrics: Types.Metrics[] = [];
+        const metrics: Types.Metric[] = [];
         for (const response of responses) {
             switch (this.options.engine !== null) {
                 case this.options.engine === "axios": {
@@ -110,10 +110,11 @@ export default class LoadTest {
                     break;
                 }
                 case this.options.engine === "playwright": {
+                    const resp = this.options.executor === 'duration' || 'iterations' ? response : response.value;
                     metrics.push({
-                        response: response.value.response,
-                        responseTime: response.value.responseTime,
-                        timeStamp: response.value.timeStamp
+                        response: resp.response,
+                        responseTime: resp.responseTime,
+                        timeStamp: resp.timeStamp
                     });
                 }
             }

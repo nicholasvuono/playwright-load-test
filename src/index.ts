@@ -1,5 +1,5 @@
 import LoadTest from "./performance";
-import Request from "./Request";
+import Request from "./request";
 
 const perf = {
     test: new LoadTest(),

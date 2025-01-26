@@ -1,7 +1,7 @@
 import {test, expect} from "@playwright/test";
-import loadtest, {req} from "../src";
+import perf from "../../src";
 
-loadtest.config({
+perf.test.config({
   engine: "playwright",
   executor: "iterations-per-second",
   duration: 15,
@@ -9,14 +9,14 @@ loadtest.config({
 });
 
 test("Iterations per Second Executor Test @iterations-per-second-executor", async ({request}) => {
-  req.config(request);
+  perf.req.config(request);
 
-  await loadtest.exec(async () => {
-    const response = await req.get("/api");
+  await perf.test.exec(async () => {
+    const response = await perf.req.get("/api");
     expect(response.response.ok()).toBeTruthy();
-    expect(req.getResponseTime()).toBeLessThan(3000);
+    expect(perf.req.getResponseTime()).toBeLessThan(3000);
     return response;
   });
 
-  await loadtest.printResults();
+  await perf.test.printResults();
 });

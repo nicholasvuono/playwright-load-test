@@ -1,25 +1,20 @@
-//import {APIResponse} from "playwright/test";
-//import {AxiosResponse} from "axios";
+type Engine = "playwright" | "axios";
 
-
-export type Engine = "playwright" | "axios";
-
-export type Executor =
+type Executor =
   | "iterations"
   | "duration"
   | "iterations-per-second"
   | "variable-rate";
 
-export type Stage = { ips: number; duration: number };
+type Stage = { ips: number; duration: number };
 
-export type RequestPerformaceMetrics = {
-//  response: APIResponse | AxiosResponse; //get explicit types to work somehow
+type Metric = {
   response: any;
   responseTime: number;
   timeStamp: number;
 };
 
-export type Options = {
+type Options = {
   engine: Engine;
   executor: Executor;
   duration?: number;
@@ -28,15 +23,21 @@ export type Options = {
   stages?: Stage[];
 };
 
-export type Results = {
-  responseTimeAverage: number;
-  responseTimeMin: number;
-  responseTimeMax: number;
-  responseTime50th: number;
-  responseTime75th: number;
-  responseTime90th: number;
+type Results = {
+  timings: {
+    average: number;
+    min: number;
+    max: number;
+    perc50: number;
+    perc75: number;
+    perc90: number;
+  }
   duration: number;
   iterations: number;
   iterationsPerSecond: number;
   totalIterations: number;
 };
+
+//probably a no no because of circular reference but oh well
+import * as Types from './types';
+export default Types;

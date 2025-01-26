@@ -1,6 +1,6 @@
 import {APIRequestContext, Request as Req, APIResponse} from "playwright/test";
 
-import {RequestPerformaceMetrics} from './types'
+import Types from './types'
 
 const time = async (func: Function) => {
   const start = performance.now();
@@ -17,7 +17,7 @@ export default class Request {
     this.request = request;
   }
 
-  async get(url: string, options?: any): Promise<RequestPerformaceMetrics> {
+  async get(url: string, options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.get(url, options);
     });
@@ -26,7 +26,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async post(url: string, options?: any): Promise<RequestPerformaceMetrics> {
+  async post(url: string, options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.post(url, options);
     });
@@ -35,7 +35,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async put(url: string, options?: any): Promise<RequestPerformaceMetrics> {
+  async put(url: string, options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.put(url, options);
     });
@@ -44,7 +44,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async patch(url: string, options?: any): Promise<RequestPerformaceMetrics> {
+  async patch(url: string, options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.patch(url, options);
     });
@@ -53,7 +53,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async delete(url: string, options?: any): Promise<RequestPerformaceMetrics> {
+  async delete(url: string, options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.delete(url, options);
     });
@@ -62,7 +62,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async dispose(options?: any): Promise<RequestPerformaceMetrics> {
+  async dispose(options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.dispose(options);
     });
@@ -71,7 +71,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async fetch(url: string | Req, options?: any): Promise<RequestPerformaceMetrics> {
+  async fetch(url: string | Req, options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.fetch(url, options);
     });
@@ -80,7 +80,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async head(url: string, options?: any): Promise<RequestPerformaceMetrics> {
+  async head(url: string, options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.head(url, options);
     });
@@ -89,7 +89,7 @@ export default class Request {
     return {response, responseTime, timeStamp};
   }
 
-  async storageState(options?: any): Promise<RequestPerformaceMetrics> {
+  async storageState(options?: any): Promise<Types.Metrics> {
     const {response, responseTime} = await time(async () => {
       return await this.request.storageState(options);
     });

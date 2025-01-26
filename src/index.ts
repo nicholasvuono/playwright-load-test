@@ -1,7 +1,9 @@
-import LoadTest from "./loadtest";
+import LoadTest from "./performance";
 import Request from "./Request";
 
-const loadtest = new LoadTest();
-export default loadtest;
+const perf = {
+    test: new LoadTest(),
+    req: new Request(),
+}
 
-export const req = new Request();
+export default perf;

@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "format": "npx prettier --write src/**/*.ts",
+    "test:custom": "npx playwright test --config ./tests/playwright.config.ts ",
     "test:iterations:executor": "npx playwright test --config ./tests/playwright.config.ts -g @iterations-executor",
     "test:duration:executor": "npx playwright test --config ./tests/playwright.config.ts -g @duration-executor",
     "test:iterations-per-second:executor": "npx playwright test --config ./tests/playwright.config.ts -g @iterations-per-second-executor",

@@ -1,8 +1,4 @@
-import {
-  APIRequestContext,
-  Request as Req,
-  APIResponse,
-} from "playwright/test";
+import Axios from "axios";
 
 import Types from "./types";
 
@@ -13,17 +9,17 @@ export const time = async (func: Function) => {
   return { response, responseTime };
 };
 
-export default class Request {
+export default class AxiosRequest {
   private responseTime: number;
-  private request: APIRequestContext;
+  private request: Axios;
 
-  config(request: APIRequestContext) {
+  config(request: Axios) {
     this.request = request;
   }
 
-  async get(url: string, options?: any): Promise<Types.Metrics> {
+  async get(...params): Promise<Types.Metrics> {
     const { response, responseTime } = await time(async () => {
-      return await this.request.get(url, options);
+      return await this.request.get(...params);
     });
     const timeStamp = Date.now();
     this.responseTime = responseTime;

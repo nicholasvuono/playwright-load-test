@@ -31,7 +31,7 @@ type Results = {
     perc50: number;
     perc75: number;
     perc90: number;
-  }
+  };
   duration: number;
   iterations: number;
   iterationsPerSecond: number;
@@ -39,5 +39,5 @@ type Results = {
 };
 
 //probably a no no because of circular reference but oh well
-import * as Types from './types';
+import * as Types from "./types";
 export default Types;

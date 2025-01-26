@@ -4,7 +4,7 @@
   "description": "Load test your apps using Playwright's APIRequestContext",
   "main": "index.ts",
   "scripts": {
-    "format": "npx prettier --write src/**/*.ts",
+    "check": "npx @biomejs/biome check --write ./**/*.ts",
     "test:custom": "npx playwright test --config ./tests/playwright.config.ts ",
     "test:iterations:executor": "npx playwright test --config ./tests/playwright.config.ts -g @iterations-executor",
     "test:duration:executor": "npx playwright test --config ./tests/playwright.config.ts -g @duration-executor",
@@ -15,10 +15,10 @@
   "author": "Nick Vuono nicholas.vuono@gmail.com",
   "license": "Apache License 2.0",
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@playwright/test": "^1.49.0",
     "@types/node": "^20.11.28",
     "axios": "^1.7.9",
-    "playwright": "^1.42.1",
-    "prettier": "^3.2.5"
+    "playwright": "^1.42.1"
   }
 }

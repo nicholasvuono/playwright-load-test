@@ -4,8 +4,6 @@
 ![Publish](https://github.com/nicholasvuono/playwright-load-test/actions/workflows/npm.yml/badge.svg)
 ![CI](https://github.com/nicholasvuono/playwright-load-test/actions/workflows/build.yml/badge.svg)
 ![CodeQL](https://github.com/nicholasvuono/playwright-load-test/actions/workflows/codeql.yml/badge.svg)
-![Prettier](https://github.com/nicholasvuono/playwright-load-test/actions/workflows/prettier.yml/badge.svg)
-[![Style: prettier](https://img.shields.io/badge/Style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![License](https://img.shields.io/badge/License-Apache2.0-red.svg)]([http://opensource.org/licenses/MIT](https://github.com/nicholasvuono/playwright-load-test/blob/main/LICENSE))
 
 NPM Registry Page: [@nickvuono/playwright-load-test](https://www.npmjs.com/package/@nickvuono/playwright-load-test)
